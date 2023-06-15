@@ -80,7 +80,7 @@ public class Graphics extends JPanel implements ActionListener {
     }
 
     protected boolean checkMark(String mark){
-        boolean isDone = false;
+        boolean isDone;
 
         //Horizontal
                      isDone = checkDirection(0, 1, 2, mark);
