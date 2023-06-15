@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class Graphics extends JPanel implements ActionListener {
 
@@ -33,7 +34,7 @@ public class Graphics extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for(int i = 0; i < 0; i++) {
+        for(int i = 0; i < 9; i++) {
             if(e.getSource() == tiles[i]) {
                 if (tiles[i].getText().isEmpty()) {
                     if(isFirstPlayerActive) {
@@ -59,6 +60,23 @@ public class Graphics extends JPanel implements ActionListener {
         if(checkMark(MARK_O)){
             return;
         }
+
+        if(checkDraw()){
+            return;
+        }
+    }
+
+    protected boolean checkDraw(){
+        int i =0;
+        while (!tiles[i].getText().isEmpty()) {
+            if(i == tiles.length - 1){
+                Arrays.stream(tiles).forEach(t -> t.setEnabled(false));
+                break;
+            }
+            i++;
+        }
+
+        return i == tiles.length -1;
     }
 
     protected boolean checkMark(String mark){
@@ -81,6 +99,18 @@ public class Graphics extends JPanel implements ActionListener {
     }
 
     protected boolean checkDirection(int posA, int posB, int posC, String mark){
-        return true;
+       if(tiles[posA].getText().equals(mark) && tiles[posB].getText().equals(mark) && tiles[posC].getText().equals(mark)) {
+           setWinner(posA, posB, posC);
+           return true;
+       }
+        return false;
+    }
+
+    protected void setWinner(int posA, int posB, int posC) {
+        tiles[posA].setBackground(Color.green);
+        tiles[posB].setBackground(Color.green);
+        tiles[posC].setBackground(Color.green);
+
+        Arrays.stream(tiles).forEach(t -> t.setEnabled(false));
     }
 }
